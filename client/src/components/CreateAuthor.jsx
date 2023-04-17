@@ -5,6 +5,7 @@ import { Link, useNavigate } from 'react-router-dom';
 const CreateAuthor = () => {
     //keep track of what is being typed via useState hook
     const [authorName, setAuthorName] = useState("");
+    const [errors, setErrors] = useState([]);
     const navigate = useNavigate();
 
     //handler when the form is submitted
@@ -20,7 +21,20 @@ const CreateAuthor = () => {
                 console.log(res.data);
                 navigate('/');
             })
-            .catch(err => console.log(err))
+            .catch(error => {
+                //get the errors from the response
+                const errorResponse = error.response.data.errors;
+                // console.log(`This is the error resp data ${errorResponse}`);
+                //create an empty arr to push the errors
+                const errorArr = [];
+                //loop through the errors to get the error msgs
+                for (const key of Object.keys(errorResponse)) {
+                    errorArr.push(errorResponse[key].message);
+                }
+                //finally, update state with setErrors
+                // console.log(errorArr);
+                setErrors(errorArr);
+            });
     }
     //onChange to update state from form inputs
     return (
@@ -30,6 +44,8 @@ const CreateAuthor = () => {
             <br />
             Add a new author:
             <form onSubmit={onSubmitHandler}>
+                {/* display validation errors inside the form */}
+                {errors.map((err, idx) => <p style={{color: 'red'}} key={idx}>{err}</p>)}
                 <p>
                     <label>Author Name</label><br />
                     <input type="text" onChange={e => setAuthorName(e.target.value)} value={authorName} />

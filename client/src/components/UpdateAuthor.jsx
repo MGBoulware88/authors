@@ -7,7 +7,7 @@ const UpdateAuthor = () => {
     const [authorName, setAuthorName] = useState("");
     const [errors, setErrors] = useState([]);
     const navigate = useNavigate();
-    const {id} = useParams();
+    const { id } = useParams();
 
     //get the author to load state
     useEffect(() => {
@@ -35,21 +35,21 @@ const UpdateAuthor = () => {
                 console.log(res.data);
                 navigate('/');
             })
-            .catch(error => {
+            .catch(err => {
                 //get the errors from the response
-                const errorResponse = error.response.data.errors;
-                console.log(errorResponse);
+                const errResponse = err.response.data.error.errors;
+                console.log(errResponse);
                 //create an empty arr to push the errors
                 const errorArr = [];
                 //loop through the errors to get the error msgs
-                for (const key of Object.keys(errorResponse)) {
-                    errorArr.push(errorResponse[key].message);
+                for (const key of Object.keys(errResponse)) {
+                    errorArr.push(errResponse[key].message);
                 }
                 //finally, update state with setErrors
+                // console.log(errorArr);
                 setErrors(errorArr);
-            })
+            });
     }
-    //onChange to update state from form inputs
     return (
         <div style={{ textAlign: 'center' }}>
             <h1>Favorite Authors</h1>
@@ -58,12 +58,12 @@ const UpdateAuthor = () => {
             Edit author:
             <form onSubmit={onSubmitHandler}>
                 {/* display validation errors inside the form */}
-                {errors.map((err, idx) => <p key={idx}>{err}</p>)}
+                {errors.map((err, idx) => <p style={{ color: 'red' }} key={idx}>{err}</p>)}
                 <p>
                     <label>Author Name</label><br />
                     <input type="text" onChange={e => setAuthorName(e.target.value)} value={authorName} />
                 </p>
-                <div style={{display: 'flex', justifyContent: 'center', gap: '0.5rem'}}>
+                <div style={{ display: 'flex', justifyContent: 'center', gap: '0.5rem' }}>
                     <Link to={'/'}><button>Cancel</button></Link>
                     <button type="submit">Submit</button>
                 </div>
