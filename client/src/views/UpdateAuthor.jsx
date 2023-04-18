@@ -8,11 +8,12 @@ const UpdateAuthor = () => {
     const [errors, setErrors] = useState([]);
     const navigate = useNavigate();
     const { id } = useParams();
+    const baseUrl = 'http://localhost:8000/api';
 
     //get the author to load state
     useEffect(() => {
         axios
-            .get(`http://localhost:8000/api/author/${id}`)
+            .get(`${baseUrl}/author/${id}`)
             .then((res) => {
                 console.log(res.data);
                 setAuthorName(res.data.name);
@@ -27,7 +28,7 @@ const UpdateAuthor = () => {
         //prevent default behavior of the submit
         e.preventDefault();
         //make a post request to create a new person
-        axios.put(`http://localhost:8000/api/author/${id}`, {
+        axios.put(`${baseUrl}/author/${id}`, {
             //key and val not same
             name: authorName
         })

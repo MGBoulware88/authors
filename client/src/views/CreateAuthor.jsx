@@ -7,13 +7,14 @@ const CreateAuthor = () => {
     const [authorName, setAuthorName] = useState("");
     const [errors, setErrors] = useState([]);
     const navigate = useNavigate();
+    const baseUrl = 'http://localhost:8000/api';
 
     //handler when the form is submitted
     const onSubmitHandler = e => {
         //prevent default behavior of the submit
         e.preventDefault();
         //make a post request to create a new person
-        axios.post('http://localhost:8000/api/author', {
+        axios.post(`${baseUrl}/author`, {
             //key and val not same
             name: authorName
         })

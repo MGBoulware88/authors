@@ -5,11 +5,11 @@ import axios from 'axios';
 
 export default () => {
     const [allAuthors, setAllAuthors] = useState([]);
-    const baseUrl = 'http://localhost:8000';
+    const baseUrl = 'http://localhost:8000/api';
     const navigate = useNavigate();
     //grab all authors on render
     useEffect(() => {
-        axios.get(`${baseUrl}/api/authors`)
+        axios.get(`${baseUrl}/authors`)
             .then((res) => setAllAuthors(res.data))
             .catch((err) => console.log(err))
     }, []);
@@ -20,10 +20,10 @@ export default () => {
 
     //handle deleting an author
     const handleDeleteOneAuthor = authorId => {
-        axios.delete(`${baseUrl}/api/author/${authorId}`)
+        axios.delete(`${baseUrl}/author/${authorId}`)
             .then(res => {
                 filterAuthors(authorId);
-                navigate('')
+                navigate('/')
             })
             .catch(err => console.log(err));
     }
